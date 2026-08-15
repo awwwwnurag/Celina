@@ -369,9 +369,23 @@ export const Header = () => {
       {/* FIXED CONTAINER FOR ANNOUNCEMENT BAR & HEADER */}
       <div className={`fixed inset-x-0 top-0 z-50 transition-transform duration-500 ${visible ? 'translate-y-0' : '-translate-y-full'}`}>
         {/* 1. ANNOUNCEMENT BAR */}
-        <aside className="bg-[#050C17] text-white py-1.5 px-3 sm:px-6 overflow-hidden border-b border-white/5 flex items-center justify-center min-h-[32px]">
-          <div className="w-full text-center flex items-center justify-center font-['Montserrat',sans-serif]">
-            <div className={`flex items-center justify-center gap-1.5 sm:gap-2.5 text-[9.5px] sm:text-[11px] md:text-[11.5px] font-semibold uppercase tracking-[0.1em] sm:tracking-[0.15em] text-[#B08D57] transition-all duration-500 ease-in-out ${promoFading ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'}`}>
+        <aside className="bg-[#050C17] text-white py-1.5 px-2 sm:px-6 overflow-hidden border-b border-white/5 flex items-center justify-center min-h-[32px]">
+          {/* Mobile: Infinite smooth marquee so text is NEVER cut off */}
+          <div className="flex md:hidden w-full overflow-hidden whitespace-nowrap">
+            <div className="animate-marquee inline-flex items-center gap-6 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B08D57]">
+              {promoLines.concat(promoLines).map((line, idx) => (
+                <span key={idx} className="inline-flex items-center gap-1.5 shrink-0">
+                  <span className="text-[11px] text-[#B08D57]">✨</span>
+                  <span>{line}</span>
+                  <span className="text-[11px] text-[#B08D57]">✨</span>
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop: Elegant centered crossfading statement */}
+          <div className="hidden md:flex w-full max-w-5xl text-center items-center justify-center font-['Montserrat',sans-serif]">
+            <div className={`flex items-center justify-center gap-2.5 text-[11px] md:text-xs font-semibold uppercase tracking-[0.15em] text-[#B08D57] transition-all duration-500 ease-in-out ${promoFading ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'}`}>
               <span className="text-[11px] text-[#B08D57] shrink-0">✨</span>
               <span className="whitespace-nowrap">{promoLines[activePromoIndex]}</span>
               <span className="text-[11px] text-[#B08D57] shrink-0">✨</span>
