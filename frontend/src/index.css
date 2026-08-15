@@ -108,15 +108,21 @@
   transform: translateY(0);
 }
 
-@keyframes marquee {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
+@keyframes marqueeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
 }
 
-.animate-marquee {
-  display: inline-flex;
+.ticker-track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
   white-space: nowrap;
-  animation: marquee 26s linear infinite;
+  animation: marqueeScroll 20s linear infinite !important;
   will-change: transform;
 }
 

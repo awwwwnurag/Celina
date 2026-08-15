@@ -371,10 +371,19 @@ export const Header = () => {
         {/* 1. ANNOUNCEMENT BAR */}
         <aside className="bg-[#050C17] text-white py-1.5 sm:py-2 px-0 sm:px-6 overflow-hidden border-b border-white/5 flex items-center justify-center min-h-[32px] sm:min-h-[34px]">
           {/* Phone Version: Continuous smooth scrolling ticker */}
-          <div className="flex md:hidden w-full overflow-hidden whitespace-nowrap">
-            <div className="animate-marquee inline-flex items-center gap-8 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B08D57]">
-              {[...promoLines, ...promoLines].map((line, idx) => (
-                <span key={idx} className="inline-flex items-center gap-2 shrink-0">
+          <div className="flex md:hidden w-full overflow-hidden whitespace-nowrap relative select-none">
+            <div className="ticker-track flex items-center gap-6 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B08D57] pr-6">
+              {promoLines.map((line, idx) => (
+                <span key={`p1-${idx}`} className="inline-flex items-center gap-1.5 shrink-0">
+                  <span className="text-[11px] text-[#B08D57]">✨</span>
+                  <span>{line}</span>
+                  <span className="text-[11px] text-[#B08D57]">✨</span>
+                </span>
+              ))}
+            </div>
+            <div className="ticker-track flex items-center gap-6 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B08D57] pr-6" aria-hidden="true">
+              {promoLines.map((line, idx) => (
+                <span key={`p2-${idx}`} className="inline-flex items-center gap-1.5 shrink-0">
                   <span className="text-[11px] text-[#B08D57]">✨</span>
                   <span>{line}</span>
                   <span className="text-[11px] text-[#B08D57]">✨</span>
