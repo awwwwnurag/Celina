@@ -70,7 +70,6 @@ const AppContent = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <AnnouncementBar />
       <Header />
       
       {/* Main Content Area */}

@@ -170,12 +170,12 @@ export const Header = () => {
   const rightMenus = parsedMenus.slice(midIndex);
 
   const promoLines = [
-    settings?.announcementText || 'Flash festive edit is live. Free shipping above Rs. 1299 and extra 10% off with CELINA10.',
-    settings?.metaDescription || 'A premium women\'s ethnic fashion store inspired by luxurious traditional details and modern comfort styling.',
-    'Prepaid orders get priority shipping & express dispatch.',
-    'Explore our new arrivals: Premium Cotton Kurtis, Co-ord Sets, and Bottom Wear.',
-    'Easy 7-day returns & hassle-free exchange requests.'
-  ].map(line => line.toUpperCase());
+    settings?.announcementText ? settings.announcementText.toUpperCase() : 'FLASH FESTIVE EDIT: EXTRA 10% OFF WITH CODE CELINA10',
+    'FREE EXPRESS SHIPPING ON ALL ORDERS ABOVE ₹1299',
+    'PREMIUM HANDCRAFTED ETHNIC WEAR & LUXURY CO-ORD SETS',
+    'EASY 7-DAY RETURNS & HASSLE-FREE EXCHANGES',
+    'PREPAID ORDERS RECEIVE PRIORITY DISPATCH'
+  ];
 
   const [activePromoIndex, setActivePromoIndex] = useState(0);
   const [promoFading, setPromoFading] = useState(false);
@@ -365,10 +365,12 @@ export const Header = () => {
       {/* FIXED CONTAINER FOR ANNOUNCEMENT BAR & HEADER */}
       <div className={`fixed inset-x-0 top-0 z-50 transition-transform duration-500 ${visible ? 'translate-y-0' : '-translate-y-full'}`}>
         {/* 1. ANNOUNCEMENT BAR */}
-        <aside className="bg-black text-white py-2 overflow-hidden border-b border-white/5 flex items-center justify-center min-h-[35px]">
-          <div className="w-full text-center flex justify-center font-Poppins">
-            <div className={`inline-flex items-center justify-center text-[10.5px] font-black uppercase tracking-widest text-[#B08D57] transition-opacity duration-500 ${promoFading ? 'opacity-0' : 'opacity-100'}`}>
-              <span>🔥 {promoLines[activePromoIndex]} 🔥</span>
+        <aside className="bg-[#050C17] text-white py-1.5 px-4 overflow-hidden border-b border-white/5 flex items-center justify-center min-h-[32px]">
+          <div className="w-full max-w-5xl text-center flex items-center justify-center font-['Montserrat',sans-serif]">
+            <div className={`flex items-center justify-center gap-2 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-[#B08D57] transition-all duration-500 ease-in-out ${promoFading ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'}`}>
+              <span className="text-[11px] text-[#B08D57]">✨</span>
+              <span className="truncate max-w-[85vw] sm:max-w-[700px]">{promoLines[activePromoIndex]}</span>
+              <span className="text-[11px] text-[#B08D57]">✨</span>
             </div>
           </div>
         </aside>
