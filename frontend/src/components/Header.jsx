@@ -181,17 +181,13 @@ export const Header = () => {
   const [promoFading, setPromoFading] = useState(false);
 
   useEffect(() => {
-    // Slower pace on mobile (8.5s) for comfortable reading, 5s on desktop
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const intervalDuration = isMobile ? 8500 : 5000;
-
     const interval = setInterval(() => {
       setPromoFading(true);
       setTimeout(() => {
         setActivePromoIndex((prev) => (prev + 1) % promoLines.length);
         setPromoFading(false);
-      }, 650); // 650ms gentle fade transition
-    }, intervalDuration);
+      }, 500); // 500ms fade out duration
+    }, 5000); // Change sentence every 5 seconds
 
     return () => clearInterval(interval);
   }, [promoLines.length]);
