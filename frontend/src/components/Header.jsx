@@ -89,26 +89,36 @@ export const Header = () => {
     }
   }, [searchOpen]);
 
-  // Sticky scroll navbar state
+  // Sticky scroll navbar state with throttled requestAnimationFrame & passive listener
   const [isScrolled, setIsScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
-  const [prevScrollY, setPrevScrollY] = useState(0);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > prevScrollY && currentScrollY > 80) {
-        setVisible(false); // scrolling down
-      } else {
-        setVisible(true); // scrolling up
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          const prev = lastScrollY.current;
+
+          if (currentScrollY > prev && currentScrollY > 100) {
+            setVisible(false); // scrolling down
+          } else if (currentScrollY < prev || currentScrollY <= 60) {
+            setVisible(true); // scrolling up
+          }
+
+          setIsScrolled(currentScrollY > 20);
+          lastScrollY.current = currentScrollY;
+          ticking.current = false;
+        });
+        ticking.current = true;
       }
-      setIsScrolled(currentScrollY > 0);
-      setPrevScrollY(currentScrollY);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [prevScrollY]);
+  }, []);
 
   // Search autocomplete lookup
   useEffect(() => {
