@@ -33,7 +33,7 @@ export const Footer = () => {
                   href={settings.socialFacebook}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#B08D57] hover:text-white flex items-center justify-center transition-all duration-300 text-gray-200"
+                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#1877F2] hover:text-white flex items-center justify-center transition-all duration-300 text-gray-200 hover:scale-105 shadow-sm"
                   aria-label="Facebook"
                 >
                   <svg className="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24">
@@ -46,7 +46,7 @@ export const Footer = () => {
                   href={settings.socialInstagram}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#B08D57] hover:text-white flex items-center justify-center transition-all duration-300 text-gray-200"
+                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#E1306C] hover:text-white flex items-center justify-center transition-all duration-300 text-gray-200 hover:scale-105 shadow-sm"
                   aria-label="Instagram"
                 >
                   <svg className="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24">
