@@ -68,18 +68,14 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/returns', returnRoutes);
 
-// Root route
-const __dirname = path.resolve();
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/frontend/dist')));
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
-  );
-} else {
-  app.get('/', (req, res) => {
-    res.send('Evara E-Commerce API is running...');
-  });
-}
+// Health and root routes for API
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Celina E-Commerce API is running...', timestamp: new Date().toISOString() });
+});
+
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', uptime: process.uptime() });
+});
 
 // Fallback Middlewares
 app.use(notFound);
