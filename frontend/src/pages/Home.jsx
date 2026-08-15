@@ -79,6 +79,20 @@ export const Home = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Smooth scroll to anchor hash (e.g. #best-sellers) on mount
+  useEffect(() => {
+    if (window.location.hash) {
+      const targetId = window.location.hash.replace('#', '');
+      const timer = setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
+
   const handleHeroSwipe = (endX) => {
     if (touchStart === null || banners.length < 2) return;
     const distance = touchStart - endX;

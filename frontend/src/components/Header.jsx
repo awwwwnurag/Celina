@@ -153,7 +153,7 @@ export const Header = () => {
 
   // Nav menus balancing logic
   const menus = settings?.navigationMenu || [
-    { title: 'Best Sellers', path: '/#best-sellers', isActive: true, order: 0 },
+    { title: 'Best Sellers', path: '/home#best-sellers', isActive: true, order: 0 },
     { title: 'Kurtis', path: '/shop?category=Kurtis', isActive: true, order: 1 },
     { title: 'Coord Sets', path: '/shop?category=Coord Sets', isActive: true, order: 2 },
     { title: 'Bottom Wear', path: '/shop?category=Bottom Wear', isActive: true, order: 3 }
@@ -161,7 +161,7 @@ export const Header = () => {
   const activeMenus = menus.filter(m => m.isActive && m.title.toUpperCase() !== 'DUPATTAS').sort((a, b) => (a.order || 0) - (b.order || 0));
   const parsedMenus = activeMenus.map(m => {
     if (m.title.toUpperCase() === 'SHOP ALL' || m.title.toUpperCase() === 'CATALOGUE') {
-      return { ...m, title: 'Best Sellers', path: '/#best-sellers' };
+      return { ...m, title: 'Best Sellers', path: '/home#best-sellers' };
     }
     return m;
   });
@@ -201,18 +201,22 @@ export const Header = () => {
       return (
         <li key={mIdx} className="list-none">
           <a
-            href="#best-sellers"
+            href="/home#best-sellers"
             onClick={(e) => {
               e.preventDefault();
-              if (window.location.pathname !== '/') {
-                navigate('/');
-                setTimeout(() => {
-                  const el = document.getElementById('best-sellers');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }, 200);
-              } else {
+              const scrollToBestSellers = () => {
                 const el = document.getElementById('best-sellers');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              };
+
+              if (window.location.pathname !== '/home') {
+                navigate('/home#best-sellers');
+                setTimeout(scrollToBestSellers, 250);
+                setTimeout(scrollToBestSellers, 600);
+              } else {
+                scrollToBestSellers();
               }
             }}
             className="hover:text-[#B08D57] hover:border-[#B08D57] border-b-2 border-transparent transition-all pb-1 font-bold text-white cursor-pointer whitespace-nowrap"
