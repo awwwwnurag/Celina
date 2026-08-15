@@ -17,32 +17,24 @@ export const Home = () => {
   const [touchStart, setTouchStart] = useState(null);
   const [dealTimeLeft, setDealTimeLeft] = useState({ hours: '06', minutes: '00', seconds: '00' });
 
-  // Fetch products and banners concurrently in parallel for 5x faster mobile loading
+  // Fetch products and banners from backend APIs
   useEffect(() => {
     const fetchHomeData = async () => {
       try {
-        const [arrivalsRes, bestSellersRes, trendingRes, featuredRes, bannersRes] = await Promise.allSettled([
-          axios.get('/api/products?limit=4&sort=newest'),
-          axios.get('/api/products?limit=4&bestSeller=true'),
-          axios.get('/api/products?limit=4&trending=true'),
-          axios.get('/api/products?limit=4&featured=true'),
-          axios.get('/api/banners')
-        ]);
+        const arrivalsRes = await axios.get('/api/products?limit=4&sort=newest');
+        setNewArrivals(arrivalsRes.data.products || []);
 
-        if (arrivalsRes.status === 'fulfilled') {
-          setNewArrivals(arrivalsRes.value.data.products || []);
-        }
-        if (bestSellersRes.status === 'fulfilled') {
-          setBestSellers(bestSellersRes.value.data.products || []);
-        }
-        if (trendingRes.status === 'fulfilled') {
-          setTrendingProducts(trendingRes.value.data.products || []);
-        }
-        if (featuredRes.status === 'fulfilled') {
-          setFeaturedProducts(featuredRes.value.data.products || []);
-        }
+        const bestSellersRes = await axios.get('/api/products?limit=4&bestSeller=true');
+        setBestSellers(bestSellersRes.data.products || []);
 
-        const apiBanners = bannersRes.status === 'fulfilled' ? (bannersRes.value.data || []).filter(b => b.isActive) : [];
+        const trendingRes = await axios.get('/api/products?limit=4&trending=true');
+        setTrendingProducts(trendingRes.data.products || []);
+
+        const featuredRes = await axios.get('/api/products?limit=4&featured=true');
+        setFeaturedProducts(featuredRes.data.products || []);
+
+        const bannersRes = await axios.get('/api/banners');
+        const apiBanners = (bannersRes.data || []).filter(b => b.isActive);
         setBanners([
           {
             _id: "welcome-celina",

@@ -89,36 +89,26 @@ export const Header = () => {
     }
   }, [searchOpen]);
 
-  // Sticky scroll navbar state with throttled requestAnimationFrame & passive listener
+  // Sticky scroll navbar state
   const [isScrolled, setIsScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
-  const lastScrollY = useRef(0);
-  const ticking = useRef(false);
+  const [prevScrollY, setPrevScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!ticking.current) {
-        window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-          const prev = lastScrollY.current;
-
-          if (currentScrollY > prev && currentScrollY > 100) {
-            setVisible(false); // scrolling down
-          } else if (currentScrollY < prev || currentScrollY <= 60) {
-            setVisible(true); // scrolling up
-          }
-
-          setIsScrolled(currentScrollY > 20);
-          lastScrollY.current = currentScrollY;
-          ticking.current = false;
-        });
-        ticking.current = true;
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > prevScrollY && currentScrollY > 80) {
+        setVisible(false); // scrolling down
+      } else {
+        setVisible(true); // scrolling up
       }
+      setIsScrolled(currentScrollY > 0);
+      setPrevScrollY(currentScrollY);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [prevScrollY]);
 
   // Search autocomplete lookup
   useEffect(() => {
@@ -191,13 +181,17 @@ export const Header = () => {
   const [promoFading, setPromoFading] = useState(false);
 
   useEffect(() => {
+    // Slower pace on mobile (8.5s) for comfortable reading, 5s on desktop
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const intervalDuration = isMobile ? 8500 : 5000;
+
     const interval = setInterval(() => {
       setPromoFading(true);
       setTimeout(() => {
         setActivePromoIndex((prev) => (prev + 1) % promoLines.length);
         setPromoFading(false);
-      }, 500); // 500ms fade out duration
-    }, 5000); // Change sentence every 5 seconds
+      }, 650); // 650ms gentle fade transition
+    }, intervalDuration);
 
     return () => clearInterval(interval);
   }, [promoLines.length]);
